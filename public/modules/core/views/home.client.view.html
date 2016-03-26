@@ -1,0 +1,57 @@
+<section data-ng-controller="HomeController">    
+    <header class="intro-header" style="background-image: linear-gradient(rgba(20, 20, 80, 0.4), rgba(20, 20, 80, 0.4)), url('/modules/core/img/Image-6'); background-repeat: no-repeat; background-position: center 15%;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+                    <div class="site-heading">
+                        <h1>Tobeck Performance Horses</h1>
+                        <hr class="small">
+                        <span class="subheading">Making Horses out of Ponies</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div data-ng-show="error" class="text-center text-danger">
+                    <strong data-ng-bind="error"></strong>
+                </div>
+                <!-- <div class="text-center">
+                    <form name="postForm" ng-submit="addPost()" class="form-horizontal" novalidate autocomplete="off">
+                        <fieldset>
+                            <div class ="row">
+                                <label for="name">File Name</label>
+                                <input type="text" required id="fileName" name="name" class="form-control" data-ng-model="file.name" placeholder="{{file.name}}"></input>
+
+                                <label for="description">Description</label>
+                                <textarea type="text" name="description" class="form-control" data-ng-model="file.description" placeholder="{{file.description}}"></textarea>
+                                <br>
+                            </div>
+                        </fieldset>
+                    </form>
+                    <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span></button>
+                </div> -->
+                <div ng-repeat="post in posts">
+                    <div ng-if="$index >= startIndex && $index <= endIndex">
+                        <button class="btn btn-danger pull-right" ng-click="removePost(post)"><span class="glyphicon glyphicon-remove"></span></button>
+                        <h2>{{ post.title }}</h2>
+                        <h4 ng-if="post.subtitle !== ''" class="post-subtitle">{{ post.subtitle }}</h3>
+                        <div ng-repeat="item in post.data">
+                            <p ng-if="item.desc === 'text'" class="text-post">{{ item.value }}</p>
+                            <img ng-if="item.desc === 'image'" class="image-post" ng-src="{{ getResource(item.value) }}"></img>
+                            <iframe ng-if="item.desc === 'video'" class="video-preview" ng-src="{{ getResource(item.value) }}" allowfullscreen frameborder="0">Unfortunately your browser does not support iframes.</iframe> 
+                        </div>
+                        <span class="post-meta">Posted <span data-ng-bind="post.updated | date:'MM/dd/yyyy'"></span></span>
+                        <hr>
+                    </div>
+                </div>
+
+                <button class="btn btn-info pull-left" ng-if="startIndex > 0" ng-click="previousPage()"><span class="glyphicon glyphicon-arrow-left"></span> <strong>Newer Posts</strong></button>
+                <button class="btn btn-info pull-right" ng-if="endIndex < posts.length - 1" ng-click="nextPage()"><strong>Older Posts</strong> <span class="glyphicon glyphicon-arrow-right"></span></button>
+            </div>
+        </div>
+    </div>
+</section>
