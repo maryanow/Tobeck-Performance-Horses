@@ -57,32 +57,33 @@
                     </div>
 
                     <div ng-if="$index >= startIndex && $index <= endIndex && post.editing">
+                        <button class="btn btn-danger pull-right" ng-click="cancelEdit(post)">Cancel <span class="glyphicon glyphicon-share-alt"></span></button>
                         <button class="btn btn-success pull-right" ng-click="savePost(post)">Save <span class="glyphicon glyphicon-save"></span></button>
 
                         <form class="clear">
                             <fieldset class="form-group">
                                 <label for="title">Title</label>
-                                <input type="text" class="form-control" value="{{ post.title }}">
+                                <input type="text" class="form-control" value="{{ post.title }}" ng-model="post.title">
                             </fieldset>
-                            <fieldset class="form-group" ng-if="post.subtitle !== ''">
+                            <fieldset class="form-group">
                                 <label for="subtitle">Subtitle</label>
-                                <input type="text" class="form-control" value="{{ post.subtitle }}">
+                                <input type="text" class="form-control" value="{{ post.subtitle }}" ng-model="post.subtitle">
                             </fieldset>
                             <fieldset>
                                 <div ng-repeat="item in post.data">
                                     <fieldset class="form-group" ng-if="item.desc === 'text'">
                                         <label for="textEdit">Edit Text</label>
-                                        <textarea class="form-control">{{ item.value }}</textarea>
+                                        <textarea class="form-control" ng-model="item.value">{{ item.value }}</textarea>
                                     </fieldset>
                                     
                                     <fieldset class="form-group" ng-if="item.desc === 'image'">
                                         <label for="imageEdit">Edit Image</label>
-                                        <input type="text" class="form-control" value="{{ item.value }}"></input>
+                                        <input type="text" class="form-control" value="{{ item.value }}" ng-model="item.value"></input>
                                     </fieldset>
                                     
                                     <fieldset class="form-group" ng-if="item.desc === 'video'">
                                         <label for="videoEdit">Edit Video</label>
-                                        <input type="text" class="form-control" value="{{ item.value }}"></input>
+                                        <input type="text" class="form-control" value="{{ item.value }}" ng-model="item.value"></input>
                                     </fieldset>
                                 </div>
                             </fieldset>

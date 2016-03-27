@@ -69,6 +69,16 @@ angular.module('core').controller('HomeController', ['$scope', '$location', '$ht
 
         $scope.editPost = function(post) {
             post.editing = true;
+
+            for (var i = 0; i < $scope.posts.length; i++) {
+                if ($scope.posts[i] !== post) {
+                    $scope.cancelEdit($scope.posts[i]);
+                }
+            }
+        }
+
+        $scope.cancelEdit = function(post) {
+            post.editing = false;
         }
 
         $scope.savePost = function(post) {
