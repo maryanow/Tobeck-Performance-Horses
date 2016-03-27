@@ -43,7 +43,6 @@ angular.module('core').controller('HomeController', ['$scope', '$location', '$ht
         */
         $scope.previousPage = function() {
             $scope.startIndex -= numPosts;
-
             $scope.endIndex = $scope.startIndex + (numPosts - 1);
         }
 
@@ -55,6 +54,8 @@ angular.module('core').controller('HomeController', ['$scope', '$location', '$ht
         *    previous page.
         */  
         $scope.removePost = function(post) {
+            //$http.delete(...);
+
             $scope.posts.splice($scope.posts.indexOf(post), 1);
 
             if ($scope.endIndex >= $scope.posts.length) {
@@ -64,6 +65,16 @@ angular.module('core').controller('HomeController', ['$scope', '$location', '$ht
             if ($scope.endIndex < $scope.startIndex) {
                 $scope.previousPage();
             }
+        }
+
+        $scope.editPost = function(post) {
+            post.editing = true;
+        }
+
+        $scope.savePost = function(post) {
+            post.editing = false;
+
+            //$http.post(...);
         }
 	}
 ]);

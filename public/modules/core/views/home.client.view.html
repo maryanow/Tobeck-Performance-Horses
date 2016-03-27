@@ -35,22 +35,64 @@
                     <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span></button>
                 </div> -->
                 <div ng-repeat="post in posts">
-                    <div ng-if="$index >= startIndex && $index <= endIndex">
-                        <button class="btn btn-danger pull-right" ng-click="removePost(post)"><span class="glyphicon glyphicon-remove"></span></button>
+                    <div ng-if="$index >= startIndex && $index <= endIndex && !post.editing">
+                        <button class="btn btn-danger pull-right" ng-click="removePost(post)">Remove <span class="glyphicon glyphicon-remove"></span></button>
+                        <button class="btn btn-success pull-right" ng-click="editPost(post)">Edit <span class="glyphicon glyphicon-edit"></span></button>
+                        
+
                         <h2>{{ post.title }}</h2>
+
                         <h4 ng-if="post.subtitle !== ''" class="post-subtitle">{{ post.subtitle }}</h3>
+
                         <div ng-repeat="item in post.data">
                             <p ng-if="item.desc === 'text'" class="text-post">{{ item.value }}</p>
+
                             <img ng-if="item.desc === 'image'" class="image-post" ng-src="{{ getResource(item.value) }}"></img>
+
                             <iframe ng-if="item.desc === 'video'" class="video-preview" ng-src="{{ getResource(item.value) }}" allowfullscreen frameborder="0">Unfortunately your browser does not support iframes.</iframe> 
                         </div>
+
                         <span class="post-meta">Posted <span data-ng-bind="post.updated | date:'MM/dd/yyyy'"></span></span>
+                        <hr>
+                    </div>
+
+                    <div ng-if="$index >= startIndex && $index <= endIndex && post.editing">
+                        <button class="btn btn-success pull-right" ng-click="savePost(post)">Save <span class="glyphicon glyphicon-save"></span></button>
+
+                        <form class="clear">
+                            <fieldset class="form-group">
+                                <label for="title">Title</label>
+                                <input type="text" class="form-control" value="{{ post.title }}">
+                            </fieldset>
+                            <fieldset class="form-group" ng-if="post.subtitle !== ''">
+                                <label for="subtitle">Subtitle</label>
+                                <input type="text" class="form-control" value="{{ post.subtitle }}">
+                            </fieldset>
+                            <fieldset>
+                                <div ng-repeat="item in post.data">
+                                    <fieldset class="form-group" ng-if="item.desc === 'text'">
+                                        <label for="textEdit">Edit Text</label>
+                                        <textarea class="form-control">{{ item.value }}</textarea>
+                                    </fieldset>
+                                    
+                                    <fieldset class="form-group" ng-if="item.desc === 'image'">
+                                        <label for="imageEdit">Edit Image</label>
+                                        <input type="text" class="form-control" value="{{ item.value }}"></input>
+                                    </fieldset>
+                                    
+                                    <fieldset class="form-group" ng-if="item.desc === 'video'">
+                                        <label for="videoEdit">Edit Video</label>
+                                        <input type="text" class="form-control" value="{{ item.value }}"></input>
+                                    </fieldset>
+                                </div>
+                            </fieldset>
+                        </form>
                         <hr>
                     </div>
                 </div>
 
-                <button class="btn btn-info pull-left" ng-if="startIndex > 0" ng-click="previousPage()"><span class="glyphicon glyphicon-arrow-left"></span> <strong>Newer Posts</strong></button>
-                <button class="btn btn-info pull-right" ng-if="endIndex < posts.length - 1" ng-click="nextPage()"><strong>Older Posts</strong> <span class="glyphicon glyphicon-arrow-right"></span></button>
+                <button class="btn btn-info pull-left" ng-if="startIndex > 0" ng-click="previousPage()"><span class="glyphicon glyphicon-arrow-left"></span> Newer Posts</button>
+                <button class="btn btn-info pull-right" ng-if="endIndex < posts.length - 1" ng-click="nextPage()">Older Posts <span class="glyphicon glyphicon-arrow-right"></span></button>
             </div>
         </div>
     </div>
