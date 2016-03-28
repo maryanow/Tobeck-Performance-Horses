@@ -82,9 +82,19 @@ angular.module('core').controller('HomeController', ['$scope', '$location', '$ht
         }
 
         $scope.savePost = function(post) {
-            post.editing = false;
+            $http.post('/posts/save', post).success(function() {
+                post.editing = false;
+            }).error(function(response) {
+                $scope.error = response.message;
+            });
+        }
 
-            //$http.post(...);
+        $scope.removeItem = function(post, item) {
+            post.data.splice(post.data.indexOf(item), 1);
+        }
+
+        $scope.addItem = function(post, index, _desc) {
+            post.data.splice(index + 1, 0, {desc: _desc, value: ''});
         }
 	}
 ]);

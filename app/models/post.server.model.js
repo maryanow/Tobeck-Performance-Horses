@@ -34,6 +34,10 @@ var PostSchema = new Schema({
             match: [/.+/, 'Please fill in the body of the post.']
         }
     }],
+    created: {
+        type: Date,
+        default: Date.now
+    },
     updated: {
         type: Date,
         default: Date.now

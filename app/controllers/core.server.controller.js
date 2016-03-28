@@ -53,3 +53,36 @@ exports.addPost = function(req, res) {
     //     });
     // }
 }
+
+exports.savePost = function(req, res) {
+    var user = req.user;
+
+    // if (user) {
+        Post.findById(req.body._id, function(err, post) {
+            if (err) {
+                res.status(400).send(err);
+            }
+            else {
+                post.updated = Date.now();
+                post.data = req.body.data;
+                post.title = req.body.title;
+                post.subtitle = req.body.subtitle;
+
+                post.save(function(err) {
+                    if (err) {
+                        res.status(400).send({
+                            message: 'Could not save post.'
+                        });
+                    }
+                });
+
+                res.sendStatus(200);
+            }
+        });
+    // }
+    // else {
+    //     res.status(400).send({
+    //         message: 'Must be logged in to save a post.'
+    //     });
+    // }
+}
