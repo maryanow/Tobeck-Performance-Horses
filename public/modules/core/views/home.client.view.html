@@ -16,28 +16,65 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div data-ng-show="error" class="text-center text-danger">
+                <div ng-show="error" class="text-center text-danger">
                     <strong data-ng-bind="error"></strong>
                 </div>
-                <!-- <div class="text-center">
-                    <form name="postForm" ng-submit="addPost()" class="form-horizontal" novalidate autocomplete="off">
-                        <fieldset>
-                            <div class ="row">
-                                <label for="name">File Name</label>
-                                <input type="text" required id="fileName" name="name" class="form-control" data-ng-model="file.name" placeholder="{{file.name}}"></input>
 
-                                <label for="description">Description</label>
-                                <textarea type="text" name="description" class="form-control" data-ng-model="file.description" placeholder="{{file.description}}"></textarea>
-                                <br>
+                <div class="text-center">
+                    <h1>News Feed</h1>
+                    <hr class="small-black"></hr>
+                </div>
+
+                <div ng-if="authentication.user">
+                    <h2 class="pull-left">New Post</h2>
+                    <button class="btn btn-success pull-right" ng-click="addPost()"><span class="glyphicon glyphicon-save"></span></button>
+
+                    <form class="clear">
+                        <fieldset class="form-group">
+                            <label for="title">Title</label>
+                            <input type="text" class="form-control" value="{{ newPost.title }}" ng-model="newPost.title">
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <label for="subtitle">Subtitle</label>
+                            <input type="text" class="form-control" value="{{ newPost.subtitle }}" ng-model="newPost.subtitle">
+                        </fieldset>
+                        <fieldset>
+                            <button class="btn btn-info btn-sm" ng-click="addItem(newPost, 0, 'text')">Text <span class="glyphicon glyphicon-plus-sign"></span></button>
+                            <button class="btn btn-info btn-sm" ng-click="addItem(newPost, 0, 'image')">Image <span class="glyphicon glyphicon-plus-sign"></span></button>
+                            <button class="btn btn-info btn-sm" ng-click="addItem(newPost, 0, 'video')">Video <span class="glyphicon glyphicon-plus-sign"></span></button>
+
+                            <div ng-repeat="item in newPost.data">
+                                <fieldset class="form-group" ng-if="item.desc === 'text'">
+                                    <label for="textEdit">Edit Text</label>
+                                    <button class="btn btn-danger btn-sm pull-right" ng-click="removeItem(newPost, item)"><span class="glyphicon glyphicon-remove"></span></button>
+                                    <textarea class="form-control" ng-model="item.value">{{ item.value }}</textarea>
+                                </fieldset>
+                                
+                                <fieldset class="form-group" ng-if="item.desc === 'image'">
+                                    <label for="imageEdit">Edit Image</label>
+                                    <button class="btn btn-danger btn-sm pull-right" ng-click="removeItem(newPost, item)"><span class="glyphicon glyphicon-remove"></span></button>
+                                    <input type="text" class="form-control" value="{{ item.value }}" ng-model="item.value"></input>
+                                </fieldset>
+                                
+                                <fieldset class="form-group" ng-if="item.desc === 'video'">
+                                    <label for="videoEdit">Edit Video</label>
+                                    <button class="btn btn-danger btn-sm pull-right" ng-click="removeItem(newPost, item)"><span class="glyphicon glyphicon-remove"></span></button>
+                                    <input type="text" class="form-control" value="{{ item.value }}" ng-model="item.value"></input>
+                                </fieldset>
+
+                                <button class="btn btn-info btn-sm" ng-click="addItem(newPost, $index, 'text')">Text <span class="glyphicon glyphicon-plus-sign"></span></button>
+                                <button class="btn btn-info btn-sm" ng-click="addItem(newPost, $index, 'image')">Image <span class="glyphicon glyphicon-plus-sign"></span></button>
+                                <button class="btn btn-info btn-sm" ng-click="addItem(newPost, $index, 'video')">Video <span class="glyphicon glyphicon-plus-sign"></span></button>
                             </div>
                         </fieldset>
                     </form>
-                    <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span></button>
-                </div> -->
+                    <hr>
+                </div>
+
                 <div ng-repeat="post in posts">
                     <div ng-if="$index >= startIndex && $index <= endIndex && !post.editing">
-                        <button class="btn btn-danger pull-right" ng-click="removePost(post)"><span class="glyphicon glyphicon-remove"></span></button>
-                        <button class="btn btn-success pull-right" ng-click="editPost(post)"><span class="glyphicon glyphicon-edit"></span></button>
+                        <button class="btn btn-danger pull-right" ng-click="removePost(post)" ng-if="authentication.user"><span class="glyphicon glyphicon-remove"></span></button>
+                        <button class="btn btn-success pull-right" ng-click="editPost(post)" ng-if="authentication.user"><span class="glyphicon glyphicon-edit"></span></button>
                         
 
                         <h2>{{ post.title }}</h2>
@@ -70,9 +107,9 @@
                                 <input type="text" class="form-control" value="{{ post.subtitle }}" ng-model="post.subtitle">
                             </fieldset>
                             <fieldset>
-                                <button class="btn btn-info btn-sm" ng-click="addItem(post, 0, 'text')">Add Text <span class="glyphicon glyphicon-plus-sign"></span></button>
-                                <button class="btn btn-info btn-sm" ng-click="addItem(post, 0, 'image')">Add Image <span class="glyphicon glyphicon-plus-sign"></span></button>
-                                <button class="btn btn-info btn-sm" ng-click="addItem(post, 0, 'video')">Add Video <span class="glyphicon glyphicon-plus-sign"></span></button>
+                                <button class="btn btn-info btn-sm" ng-click="addItem(post, 0, 'text')">Text <span class="glyphicon glyphicon-plus-sign"></span></button>
+                                <button class="btn btn-info btn-sm" ng-click="addItem(post, 0, 'image')">Image <span class="glyphicon glyphicon-plus-sign"></span></button>
+                                <button class="btn btn-info btn-sm" ng-click="addItem(post, 0, 'video')">Video <span class="glyphicon glyphicon-plus-sign"></span></button>
 
                                 <div ng-repeat="item in post.data">
                                     <fieldset class="form-group" ng-if="item.desc === 'text'">
@@ -93,9 +130,9 @@
                                         <input type="text" class="form-control" value="{{ item.value }}" ng-model="item.value"></input>
                                     </fieldset>
 
-                                    <button class="btn btn-info btn-sm" ng-click="addItem(post, $index, 'text')">Add Text <span class="glyphicon glyphicon-plus-sign"></span></button>
-                                    <button class="btn btn-info btn-sm" ng-click="addItem(post, $index, 'image')">Add Image <span class="glyphicon glyphicon-plus-sign"></span></button>
-                                    <button class="btn btn-info btn-sm" ng-click="addItem(post, $index, 'video')">Add Video <span class="glyphicon glyphicon-plus-sign"></span></button>
+                                    <button class="btn btn-info btn-sm" ng-click="addItem(post, $index, 'text')">Text <span class="glyphicon glyphicon-plus-sign"></span></button>
+                                    <button class="btn btn-info btn-sm" ng-click="addItem(post, $index, 'image')">Image <span class="glyphicon glyphicon-plus-sign"></span></button>
+                                    <button class="btn btn-info btn-sm" ng-click="addItem(post, $index, 'video')">Video <span class="glyphicon glyphicon-plus-sign"></span></button>
                                 </div>
                             </fieldset>
                         </form>

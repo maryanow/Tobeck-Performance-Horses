@@ -8,5 +8,6 @@ module.exports = function(app) {
     
     app.route('/posts').get(core.getPosts);
     app.route('/posts').post(core.addPost);
+    app.route('/posts/:id').delete(core.removePost);
     app.route('/posts/save').post(core.savePost);
 };

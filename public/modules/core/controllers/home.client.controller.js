@@ -1,12 +1,19 @@
 'use strict';
 
-angular.module('core').controller('HomeController', ['$scope', '$location', '$http', '$sce',
-	function($scope, $location, $http, $sce) {
+angular.module('core').controller('HomeController', ['$scope', '$location', '$http', 'Authentication', '$sce',
+	function($scope, $location, $http, Authentication, $sce) {
         var numPosts = 3;
+
+        $scope.authentication = Authentication;
 
         $scope.posts = null;
         $scope.startIndex = 0;
         $scope.endIndex = numPosts - 1;
+
+        $scope.newPost = {
+            title:'',
+            data:[]
+        }
 
         $http.get('/posts').success(function(data) {
             delete $scope.error;
@@ -54,19 +61,27 @@ angular.module('core').controller('HomeController', ['$scope', '$location', '$ht
         *    previous page.
         */  
         $scope.removePost = function(post) {
-            //$http.delete(...);
+            $http.delete('/posts/' + post._id).success(function() {
+                delete $scope.error;
 
-            $scope.posts.splice($scope.posts.indexOf(post), 1);
+                $scope.posts.splice($scope.posts.indexOf(post), 1);
 
-            if ($scope.endIndex >= $scope.posts.length) {
-                $scope.endIndex = $scope.posts.length - 1;
-            }
+                if ($scope.endIndex >= $scope.posts.length) {
+                    $scope.endIndex = $scope.posts.length - 1;
+                }
 
-            if ($scope.endIndex < $scope.startIndex) {
-                $scope.previousPage();
-            }
+                if ($scope.endIndex < $scope.startIndex) {
+                    $scope.previousPage();
+                }
+            }).error(function(response) {
+                $scope.error = response.message;
+            });
         }
 
+        /*
+        *   Begin editing state of individual post.
+        *   Cancel any other edits.
+        */
         $scope.editPost = function(post) {
             post.editing = true;
 
@@ -81,12 +96,31 @@ angular.module('core').controller('HomeController', ['$scope', '$location', '$ht
             post.editing = false;
         }
 
+        /*
+        *   Call to backend to update database with
+        *    new information.
+        */
         $scope.savePost = function(post) {
             $http.post('/posts/save', post).success(function() {
+                delete $scope.error;
+
                 post.editing = false;
             }).error(function(response) {
                 $scope.error = response.message;
             });
+        }
+
+        $scope.addPost = function() {
+            $http.post('/posts', $scope.newPost).success(function(post) {
+                delete $scope.error;
+
+                console.log(post)
+
+                $scope.posts.splice(0, 0, $scope.newPost);
+                $scope.newPost = {};
+            }).error(function(response) {
+                $scope.error = response.message;
+            })
         }
 
         $scope.removeItem = function(post, item) {

@@ -6756,6 +6756,12 @@ hr.small {
   border-width: 4px;
   border-color: white;
 }
+hr.small-black {
+  max-width: 100px;
+  margin: 15px auto;
+  border-width: 4px;
+  border-color: black;
+}
 .video-preview {
   height: 400px;
   width: 100%;
@@ -6916,6 +6922,10 @@ footer.footer .copyright {
   text-align: center;
   margin-bottom: 0;
 }
+footer.footer input {
+  display: inline;
+  width: 20%;
+}
 .image-post {
   width: 100%;
 }
@@ -6929,7 +6939,7 @@ footer.footer .copyright {
 }
 textarea {
   font-size: 16px;
-  width: 90%;
+  width: 100%;
   resize: vertical;
   overflow: auto;
 }
