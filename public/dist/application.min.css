@@ -6957,3 +6957,8 @@ p.left-right-indent {
   margin-right: 30px;
   text-align: justify;
 }
+.trainer-img {
+  width: 35%;
+  margin-left: 30px;
+  margin-bottom: 20px;
+}

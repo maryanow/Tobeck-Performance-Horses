@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('core').controller('TrainingController', ['$scope', '$location', '$http',
+angular.module('core').controller('TrainersController', ['$scope', '$location', '$http',
     function($scope, $location, $http) {
     }
 ]);

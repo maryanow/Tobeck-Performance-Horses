@@ -1,3 +1,4 @@
 public/lib
 public/modules/core/img
 node_modules
+public/dist/application.min.css
