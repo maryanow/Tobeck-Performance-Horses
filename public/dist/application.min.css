@@ -6756,12 +6756,6 @@ hr.small {
   border-width: 4px;
   border-color: white;
 }
-hr.small-black {
-  max-width: 100px;
-  margin: 15px auto;
-  border-width: 4px;
-  border-color: black;
-}
 .video-preview {
   height: 400px;
   width: 100%;
@@ -6928,6 +6922,7 @@ footer.footer input {
 }
 .image-post {
   width: 100%;
+  margin-bottom: 20px;
 }
 .btn {
   font-weight: bold;
@@ -6953,4 +6948,12 @@ label {
 }
 .clear {
   clear: both;
+}
+div ul {
+  margin-bottom: 30px;
+}
+p.left-right-indent {
+  margin-left: 30px;
+  margin-right: 30px;
+  text-align: justify;
 }

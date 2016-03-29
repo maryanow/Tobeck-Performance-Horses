@@ -11,25 +11,25 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 			url: '/',
 			templateUrl: 'modules/core/views/home.client.view.html'
 		})
-		.state('about', {
-			url: '/about',
-			templateUrl: 'modules/core/views/about.client.view.html'
-		})
 		.state('news', {
 			url: '/news',
 			templateUrl: 'modules/core/views/news.client.view.html'
 		})
-		.state('calendar', {
-			url: '/calendar',
-			templateUrl: 'modules/core/views/calendar.client.view.html'
-		})
-		.state('contact', {
-			url: '/contact',
-			templateUrl: 'modules/core/views/contact.client.view.html'
+		.state('facilities', {
+			url: '/facilities',
+			templateUrl: 'modules/core/views/facilities.client.view.html'
 		})
 		.state('sales', {
 			url: '/sales',
 			templateUrl: 'modules/core/views/sales.client.view.html'
+		})
+		.state('services', {
+			url: '/services',
+			templateUrl: 'modules/core/views/services.client.view.html'
+		})
+		.state('trainers', {
+			url: '/trainers',
+			templateUrl: 'modules/core/views/trainers.client.view.html'
 		});
 	}
 ]);

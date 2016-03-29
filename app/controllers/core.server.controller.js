@@ -96,7 +96,7 @@ exports.removePost = function(req, res) {
     var user = req.user;
 
     if (user) {
-        Post.findByIdAndRemove(req.params.id, function(err, removed) {
+        Post.findByIdAndRemove(req.params.id, function(err) {
             if (err) {
                 res.status(400).send(err);
             }
