@@ -111,16 +111,25 @@ angular.module('core').controller('HomeController', ['$scope', '$location', '$ht
         }
 
         $scope.addPost = function() {
-            $http.post('/posts', $scope.newPost).success(function(post) {
-                delete $scope.error;
+            if ($scope.newPost.title !== '') {
+                $http.post('/posts', $scope.newPost).success(function(post) {
+                    delete $scope.error;
 
-                console.log(post)
+                    $scope.newPost.created = Date.now();
+                    $scope.newPost.updated = Date.now();
 
-                $scope.posts.splice(0, 0, $scope.newPost);
-                $scope.newPost = {};
-            }).error(function(response) {
-                $scope.error = response.message;
-            })
+                    $scope.posts.splice(0, 0, $scope.newPost);
+                    $scope.newPost = {
+                        title:'',
+                        data:[]
+                    }
+                }).error(function(response) {
+                    $scope.error = response.message;
+                });
+            }
+            else {
+                $scope.error = 'Must include a title.';
+            }
         }
 
         $scope.removeItem = function(post, item) {

@@ -25,6 +25,7 @@
                     <hr class="small-black"></hr>
                 </div>
 
+                <!-- Adding a new post -->
                 <div ng-if="authentication.user">
                     <h2 class="pull-left">New Post</h2>
                     <button class="btn btn-success pull-right" ng-click="addPost()"><span class="glyphicon glyphicon-save"></span></button>
@@ -39,9 +40,11 @@
                             <input type="text" class="form-control" value="{{ newPost.subtitle }}" ng-model="newPost.subtitle">
                         </fieldset>
                         <fieldset>
-                            <button class="btn btn-info btn-sm" ng-click="addItem(newPost, 0, 'text')">Text <span class="glyphicon glyphicon-plus-sign"></span></button>
-                            <button class="btn btn-info btn-sm" ng-click="addItem(newPost, 0, 'image')">Image <span class="glyphicon glyphicon-plus-sign"></span></button>
-                            <button class="btn btn-info btn-sm" ng-click="addItem(newPost, 0, 'video')">Video <span class="glyphicon glyphicon-plus-sign"></span></button>
+                            <button class="btn btn-info btn-sm" ng-click="addItem(newPost, -1, 'text')">Text <span class="glyphicon glyphicon-plus-sign"></span></button>
+                            <button class="btn btn-info btn-sm" ng-click="addItem(newPost, -1, 'image')">Image <span class="glyphicon glyphicon-plus-sign"></span></button>
+                            <button class="btn btn-info btn-sm" ng-click="addItem(newPost, -1, 'video')">Video <span class="glyphicon glyphicon-plus-sign"></span></button>
+                            <button class="btn btn-info btn-sm" ng-click="addItem(newPost, -1, 'quote')">Quote <span class="glyphicon glyphicon-plus-sign"></span></button>
+                            <button class="btn btn-info btn-sm" ng-click="addItem(newPost, -1, 'section')">Section <span class="glyphicon glyphicon-plus-sign"></span></button>
 
                             <div ng-repeat="item in newPost.data">
                                 <fieldset class="form-group" ng-if="item.desc === 'text'">
@@ -62,16 +65,33 @@
                                     <input type="text" class="form-control" value="{{ item.value }}" ng-model="item.value"></input>
                                 </fieldset>
 
+                                <fieldset class="form-group" ng-if="item.desc === 'quote'">
+                                    <label for="quoteEdit">Edit Quote</label>
+                                    <button class="btn btn-danger btn-sm pull-right" ng-click="removeItem(post, item)"><span class="glyphicon glyphicon-remove"></span></button>
+                                    <textarea class="form-control" ng-model="item.value">{{ item.value }}</textarea>
+                                </fieldset>
+
+                                <fieldset class="form-group" ng-if="item.desc === 'section'">
+                                    <label for="sectionEdit">Edit Section Title</label>
+                                    <button class="btn btn-danger btn-sm pull-right" ng-click="removeItem(post, item)"><span class="glyphicon glyphicon-remove"></span></button>
+                                    <textarea class="form-control" ng-model="item.value">{{ item.value }}</textarea>
+                                </fieldset>
+
                                 <button class="btn btn-info btn-sm" ng-click="addItem(newPost, $index, 'text')">Text <span class="glyphicon glyphicon-plus-sign"></span></button>
                                 <button class="btn btn-info btn-sm" ng-click="addItem(newPost, $index, 'image')">Image <span class="glyphicon glyphicon-plus-sign"></span></button>
                                 <button class="btn btn-info btn-sm" ng-click="addItem(newPost, $index, 'video')">Video <span class="glyphicon glyphicon-plus-sign"></span></button>
+                                <button class="btn btn-info btn-sm" ng-click="addItem(newPost, $index, 'quote')">Quote <span class="glyphicon glyphicon-plus-sign"></span></button>
+                                <button class="btn btn-info btn-sm" ng-click="addItem(newPost, $index, 'section')">Section <span class="glyphicon glyphicon-plus-sign"></span></button>
                             </div>
                         </fieldset>
                     </form>
                     <hr>
                 </div>
+                <!-- Adding a new post -->
 
                 <div ng-repeat="post in posts">
+
+                    <!-- Displaying existing posts -->
                     <div ng-if="$index >= startIndex && $index <= endIndex && !post.editing">
                         <button class="btn btn-danger pull-right" ng-click="removePost(post)" ng-if="authentication.user"><span class="glyphicon glyphicon-remove"></span></button>
                         <button class="btn btn-success pull-right" ng-click="editPost(post)" ng-if="authentication.user"><span class="glyphicon glyphicon-edit"></span></button>
@@ -87,12 +107,18 @@
                             <img ng-if="item.desc === 'image'" class="image-post" ng-src="{{ getResource(item.value) }}"></img>
 
                             <iframe ng-if="item.desc === 'video'" class="video-preview" ng-src="{{ getResource(item.value) }}" allowfullscreen frameborder="0">Unfortunately your browser does not support iframes.</iframe> 
+
+                            <blockquote ng-if="item.desc === 'quote'" class="blockquote">{{ item.value }}</blockquote>
+
+                            <h3 ng-if="item.desc === 'section'" class="section-heading">&mdash; {{ item.value }}</h3>
                         </div>
 
                         <span class="post-meta">Posted <span ng-bind="post.created | date:'MMM d, yyyy hh:mm'"></span><span ng-show="post.created !== post.updated"> &mdash; Updated <span ng-bind="post.updated | date:'MMM d, yyyy hh:mm'"></span></span></span>
                         <hr>
                     </div>
+                    <!-- Displaying existing posts -->
 
+                    <!-- Displaying post to edit -->
                     <div ng-if="$index >= startIndex && $index <= endIndex && post.editing">
                         <button class="btn btn-danger pull-right" ng-click="cancelEdit(post)"><span class="glyphicon glyphicon-share-alt"></span></button>
                         <button class="btn btn-success pull-right" ng-click="savePost(post)"><span class="glyphicon glyphicon-save"></span></button>
@@ -107,9 +133,11 @@
                                 <input type="text" class="form-control" value="{{ post.subtitle }}" ng-model="post.subtitle">
                             </fieldset>
                             <fieldset>
-                                <button class="btn btn-info btn-sm" ng-click="addItem(post, 0, 'text')">Text <span class="glyphicon glyphicon-plus-sign"></span></button>
-                                <button class="btn btn-info btn-sm" ng-click="addItem(post, 0, 'image')">Image <span class="glyphicon glyphicon-plus-sign"></span></button>
-                                <button class="btn btn-info btn-sm" ng-click="addItem(post, 0, 'video')">Video <span class="glyphicon glyphicon-plus-sign"></span></button>
+                                <button class="btn btn-info btn-sm" ng-click="addItem(post, -1, 'text')">Text <span class="glyphicon glyphicon-plus-sign"></span></button>
+                                <button class="btn btn-info btn-sm" ng-click="addItem(post, -1, 'image')">Image <span class="glyphicon glyphicon-plus-sign"></span></button>
+                                <button class="btn btn-info btn-sm" ng-click="addItem(post, -1, 'video')">Video <span class="glyphicon glyphicon-plus-sign"></span></button>
+                                <button class="btn btn-info btn-sm" ng-click="addItem(post, -1, 'quote')">Quote <span class="glyphicon glyphicon-plus-sign"></span></button>
+                                <button class="btn btn-info btn-sm" ng-click="addItem(post, -1, 'section')">Section <span class="glyphicon glyphicon-plus-sign"></span></button>
 
                                 <div ng-repeat="item in post.data">
                                     <fieldset class="form-group" ng-if="item.desc === 'text'">
@@ -130,14 +158,29 @@
                                         <input type="text" class="form-control" value="{{ item.value }}" ng-model="item.value"></input>
                                     </fieldset>
 
+                                    <fieldset class="form-group" ng-if="item.desc === 'quote'">
+                                        <label for="quoteEdit">Edit Quote</label>
+                                        <button class="btn btn-danger btn-sm pull-right" ng-click="removeItem(post, item)"><span class="glyphicon glyphicon-remove"></span></button>
+                                        <textarea class="form-control" ng-model="item.value">{{ item.value }}</textarea>
+                                    </fieldset>
+
+                                    <fieldset class="form-group" ng-if="item.desc === 'section'">
+                                        <label for="sectionEdit">Edit Section Title</label>
+                                        <button class="btn btn-danger btn-sm pull-right" ng-click="removeItem(post, item)"><span class="glyphicon glyphicon-remove"></span></button>
+                                        <textarea class="form-control" ng-model="item.value">{{ item.value }}</textarea>
+                                    </fieldset>
+
                                     <button class="btn btn-info btn-sm" ng-click="addItem(post, $index, 'text')">Text <span class="glyphicon glyphicon-plus-sign"></span></button>
                                     <button class="btn btn-info btn-sm" ng-click="addItem(post, $index, 'image')">Image <span class="glyphicon glyphicon-plus-sign"></span></button>
                                     <button class="btn btn-info btn-sm" ng-click="addItem(post, $index, 'video')">Video <span class="glyphicon glyphicon-plus-sign"></span></button>
+                                    <button class="btn btn-info btn-sm" ng-click="addItem(post, $index, 'quote')">Quote <span class="glyphicon glyphicon-plus-sign"></span></button>
+                                    <button class="btn btn-info btn-sm" ng-click="addItem(post, $index, 'section')">Section <span class="glyphicon glyphicon-plus-sign"></span></button>
                                 </div>
                             </fieldset>
                         </form>
                         <hr>
                     </div>
+                    <!-- Displaying post to edit -->
                 </div>
 
                 <button class="btn btn-info pull-left" ng-if="startIndex > 0" ng-click="previousPage()"><span class="glyphicon glyphicon-arrow-left"></span> Newer Posts</button>

@@ -6937,6 +6937,10 @@ footer.footer input {
 .btn .glyphicon {
   vertical-align: text-top;
 }
+.section-heading {
+  font-weight: bold;
+  font-size: 20px;
+}
 textarea {
   font-size: 16px;
   width: 100%;
