@@ -15,10 +15,6 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 			url: '/news',
 			templateUrl: 'modules/core/views/news.client.view.html'
 		})
-		.state('facilities', {
-			url: '/facilities',
-			templateUrl: 'modules/core/views/facilities.client.view.html'
-		})
 		.state('sales', {
 			url: '/sales',
 			templateUrl: 'modules/core/views/sales.client.view.html'
@@ -27,9 +23,9 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 			url: '/services',
 			templateUrl: 'modules/core/views/services.client.view.html'
 		})
-		.state('trainers', {
-			url: '/trainers',
-			templateUrl: 'modules/core/views/trainers.client.view.html'
+		.state('contact', {
+			url: '/contact',
+			templateUrl: 'modules/core/views/contact.client.view.html'
 		});
 	}
 ]);
