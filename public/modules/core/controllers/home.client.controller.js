@@ -9,12 +9,9 @@ angular.module('core').controller('HomeController', ['$scope', '$location', '$ht
         $http.get('/pages/home').success(function(data) {
             delete $scope.error;
             $scope.page = data;
-
-            console.log(data)
-
         }).error(function(err) {
-            $scope.page = null;
             $scope.error = err.message;
+            $scope.page = null;
         });
 
         $scope.editPage = function() {
@@ -28,12 +25,11 @@ angular.module('core').controller('HomeController', ['$scope', '$location', '$ht
         $scope.savePage = function() {
             $http.post('/pages/save', $scope.page).success(function() {
                 delete $scope.error;
-                $scope.editing = false;
             }).error(function(response) {
                 $scope.error = response.message;
             });
 
-            $scope.cancelEdit();
+            $scope.editing = false;
         }
 
         /*

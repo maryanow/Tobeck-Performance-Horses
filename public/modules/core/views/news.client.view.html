@@ -68,7 +68,7 @@
                                 <fieldset class="form-group" ng-if="item.desc === 'section'">
                                     <label for="sectionEdit">Edit Section Title</label>
                                     <button class="btn btn-danger btn-sm pull-right" ng-click="removeItem(post, item)"><span class="glyphicon glyphicon-remove"></span></button>
-                                    <textarea class="form-control" ng-model="item.value">{{ item.value }}</textarea>
+                                    <input type="text" class="form-control" value="{{ item.value }}" ng-model="item.value"></input>
                                 </fieldset>
 
                                 <button class="btn btn-info btn-sm" ng-click="addItem(newPost, $index, 'text')">Text <span class="glyphicon glyphicon-plus-sign"></span></button>
@@ -95,7 +95,7 @@
                         <h4 ng-if="post.subtitle !== ''" class="post-subtitle">{{ post.subtitle }}</h3>
 
                         <div ng-repeat="item in post.data">
-                            <p ng-if="item.desc === 'text'" class="text-post">{{ item.value }}</p>
+                            <p ng-if="item.desc === 'text'" class="justified-indent">{{ item.value }}</p>
 
                             <img ng-if="item.desc === 'image'" class="image-post" ng-src="{{ getResource(item.value) }}"></img>
 
@@ -160,7 +160,7 @@
                                     <fieldset class="form-group" ng-if="item.desc === 'section'">
                                         <label for="sectionEdit">Edit Section Title</label>
                                         <button class="btn btn-danger btn-sm pull-right" ng-click="removeItem(post, item)"><span class="glyphicon glyphicon-remove"></span></button>
-                                        <textarea class="form-control" ng-model="item.value">{{ item.value }}</textarea>
+                                        <input type="text" class="form-control" value="{{ item.value }}" ng-model="item.value"></input>
                                     </fieldset>
 
                                     <button class="btn btn-info btn-sm" ng-click="addItem(post, $index, 'text')">Text <span class="glyphicon glyphicon-plus-sign"></span></button>

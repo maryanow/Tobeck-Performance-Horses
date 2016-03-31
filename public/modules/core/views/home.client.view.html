@@ -1,12 +1,39 @@
 <section data-ng-controller="HomeController">    
-    <header class="intro-header" style="background-image: linear-gradient(rgba(0, 0, 80, 0.3), rgba(0, 0, 80, 0.3)), url('/modules/core/img/about-header'); background-position: 0% 75%;">
+    <header class="intro-header" style="background-image: linear-gradient(rgba(0,0,80,{{ page.header.darkened }}), rgba(0,0,80, {{page.header.darkened }})), url('{{ getResource(page.header.image) }}'); background-position: 0% {{ page.header.position }}%;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
-                    <div class="site-heading">
-                        <h1>Tobeck Performance Horses</h1>
+                    <div class="site-heading" ng-if="!editing">
+                        <h1>{{ page.header.heading }}</h1>
                         <hr class="small">
-                        <span class="subheading">A Quality Show Horse Experience with the Horse and Rider in Mind</span>
+                        <span class="subheading" ng-if="page.header.subheading !== ''">{{ page.header.subheading }}</span>
+                    </div>
+
+                    <div class="site-heading" ng-if="editing">
+                        <fieldset class="form-group">
+                            <label for="headingEdit">Edit Heading</label>
+                            <input type="text" class="form-control" value="{{ page.header.heading }}" ng-model="page.header.heading"></input>
+                        </fieldset>
+                        
+                        <fieldset class="form-group">
+                            <label for="subheadingEdit">Edit Subheading</label>
+                            <input type="text" class="form-control" value="{{ page.header.subheading }}" ng-model="page.header.subheading"></input>
+                        </fieldset>
+
+                        <fieldset class="form-group">
+                            <label for="imageEdit">Edit Background Image</label>
+                            <input type="text" class="form-control" value="{{ page.header.image }}" ng-model="page.header.image"></input>
+                        </fieldset>
+
+                        <fieldset class="form-group">
+                            <label for="positionEdit">Edit Background Position</label>
+                            <input type="text" class="form-control" value="{{ page.header.position }}" ng-model="page.header.position"></input>
+                        </fieldset>
+
+                        <fieldset class="form-group">
+                            <label for="darkenedEdit">Edit Background Darkening</label>
+                            <input type="text" class="form-control" value="{{ page.header.darkened }}" ng-model="page.header.darkened"></input>
+                        </fieldset>
                     </div>
                 </div>
             </div>
@@ -21,7 +48,7 @@
                         <strong ng-bind="error"></strong>
                     </div>
 
-                    <button class="btn btn-success pull-right" ng-click="editPage()" ng-if="!editing"><span class="glyphicon glyphicon-edit"></span></button>
+                    <button class="btn btn-success pull-right" ng-click="editPage()" ng-if="!editing && page !== null"><span class="glyphicon glyphicon-edit"></span></button>
                     <button class="btn btn-danger pull-right" ng-click="cancelEdit()" ng-if="editing"><span class="glyphicon glyphicon-share-alt"></span></button>
                     <button class="btn btn-success pull-right" ng-click="savePage()" ng-if="editing"><span class="glyphicon glyphicon-save"></span></button>
 
@@ -39,7 +66,7 @@
                         <div ng-if="!editing">
                             <p ng-if="item.desc === 'text'" class="justified-indent">{{ item.value }}</p>
 
-                            <img ng-if="item.desc === 'image'" class="inline-img {{ item.classes }}" ng-src="{{ getResource(item.value) }}"></img>
+                            <img ng-if="item.desc === 'image'" class="inline-img pull-right" ng-src="{{ getResource(item.value) }}"></img>
 
                             <iframe ng-if="item.desc === 'video'" class="video-preview" ng-src="{{ getResource(item.value) }}" allowfullscreen frameborder="0">Unfortunately your browser does not support iframes.</iframe> 
 
@@ -80,7 +107,7 @@
                             <fieldset class="form-group" ng-if="item.desc === 'section'">
                                 <label for="sectionEdit">Edit Section Title</label>
                                 <button class="btn btn-danger btn-sm pull-right" ng-click="removeItem(item)"><span class="glyphicon glyphicon-remove"></span></button>
-                                <textarea class="form-control" ng-model="item.value">{{ item.value }}</textarea>
+                                <input type="text" class="form-control" value="{{ item.value }}" ng-model="item.value"></input>
                             </fieldset>
 
                             <fieldset class="form-group" ng-if="item.desc === 'hr-lg'">
@@ -102,6 +129,8 @@
                             <button class="btn btn-info btn-sm" ng-click="addItem($index, 'hr-sh')">Short Divider <span class="glyphicon glyphicon-plus-sign"></span></button>
                         </div>
                     </div>
+
+                    <hr>
                 </div>
             </div>
         </div>
@@ -118,7 +147,7 @@
                     <div ng-repeat="item in page.data">
                         <p ng-if="item.desc === 'text'" class="justified-indent">{{ item.value }}</p>
 
-                        <img ng-if="item.desc === 'image'" class="{{ item.classes }}" ng-src="{{ getResource(item.value) }}"></img>
+                        <img ng-if="item.desc === 'image'" class="inline-img pull-right" ng-src="{{ getResource(item.value) }}"></img>
 
                         <iframe ng-if="item.desc === 'video'" class="video-preview" ng-src="{{ getResource(item.value) }}" allowfullscreen frameborder="0">Unfortunately your browser does not support iframes.</iframe> 
 
@@ -131,31 +160,7 @@
                         <hr ng-if="item.desc === 'hr-sh'" class="small-dark">
                     </div>
 
-                    <!-- <h1>About McKenzie Tobeck</h1>
-                    <img src="/modules/core/img/about-body-mckenzie" class="inline-img pull-right"></img>
-                    <p class="justified-indent">
-                        McKenzie has been competitively showing Arabian and Half-Arabian horses for fourteen years and has garnered multiple national championships and reserve championships in the youth, amateur, and open divisions. She will be specializing in English and Country English Pleasure, ShowHack, Hunter, and Western Pleasure horses.
-                    </p>
-                    <p class="justified-indent">
-                        McKenzie is also passionate about brining more riders  into the Arabian Horse Association and is starting a lesson program for riders of all ages and abilities.
-                    </p>
-                    <p class="justified-indent">
-                        After growing up in the horse industry and with many years of experience successfully training, marketing, showing, and teaching lessons, McKenzie is passionate about bringing horses and riders together and helping people achieve their dreams. The future of Tobeck Performance Horses is bright!
-                    </p>
                     <hr>
-                    <h1>Testimonials</h1>
-                    <blockquote class="blockquote">
-                        McKenzie is a highly talented and knowledgeable trainer! Her passion and exuberance for the success of the show horses she trains is interwoven into each step of her training program. McKenzie is available to answer the most simple to the more complex questions and finds unique and sound methods to get horse and rider in tune with each other. McKenzie is kind, down-to-Earth, responsive, and a pleasure to work with.
-                    </blockquote>
-                    <hr class="small-dark">
-                    <blockquote class="blockquote">
-                        After being out of the horse world for almost 11 years, McKenzie worked with my new horse Juana Bet and I to build our relationship and move me toward my goals for competition. Her understanding of my new horse and her years of experience in the Arabian Horse show world have made my transition back into the saddle deeply pleasureable and seamless!
-                    </blockquote>
-                    <hr class="small-dark">
-                    <blockquote class="blockquote">
-                        McKenzie, I can't thank you enough for your continued guidance and training! I highly recommend you to anyone who wishes to take their horse to the top! I look forward to our continued work together!
-                    </blockquote>
-                    <hr> -->
                 </div>
             </div>
         </div>

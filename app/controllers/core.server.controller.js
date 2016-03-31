@@ -134,6 +134,7 @@ exports.savePage = function(req, res) {
             else if (page) {
                 page.data = req.body.data;
                 page.title = req.body.title;
+                page.header = req.body.header;
 
                 page.save(function(err) {
                     if (err) {
