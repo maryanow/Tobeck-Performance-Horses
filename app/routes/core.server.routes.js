@@ -10,4 +10,9 @@ module.exports = function(app) {
     app.route('/posts').post(core.addPost);
     app.route('/posts/:id').delete(core.removePost);
     app.route('/posts/save').post(core.savePost);
+
+    app.route('/pages/:page').get(core.getPage);
+    app.route('/pages/save').post(core.savePage);
+
+    app.route('/pages/add').post(core.addPage);
 };

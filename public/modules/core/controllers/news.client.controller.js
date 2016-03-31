@@ -21,10 +21,10 @@ angular.module('core').controller('NewsController', ['$scope', '$location', '$ht
         }).error(function(err) {
             $scope.posts = null;
             $scope.error = err.message;
-        })
+        });
 
         /*
-        *   Transform URL into trusted URL for iframe use.
+        *   Transform URL into trusted URL for iframe/img use.
         */
         $scope.getResource = function(src) {
             return $sce.trustAsResourceUrl(src);

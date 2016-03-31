@@ -6830,7 +6830,6 @@ hr.small-dark {
   }
 }
 .intro-header {
-  background-color: #4d4d4d;
   background: no-repeat center center;
   background-attachment: scroll;
   -webkit-background-size: cover;
@@ -6839,7 +6838,7 @@ hr.small-dark {
   -o-background-size: cover;
   margin-right: -15px;
   margin-left: -15px;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 }
 .intro-header .site-heading,
 .intro-header .post-heading,

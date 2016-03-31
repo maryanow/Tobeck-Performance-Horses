@@ -1,7 +1,8 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    Post = mongoose.model('Post');
+    Post = mongoose.model('Post'),
+    Page = mongoose.model('Page');
 
 exports.index = function(req, res) {
     res.render('index', {
@@ -109,4 +110,63 @@ exports.removePost = function(req, res) {
             message: 'Must be logged in to remove a post.'
         })
     }
+}
+
+exports.getPage = function(req, res) {
+    Page.findOne({title: req.params.page}, function(err, page) {
+        if (err) {
+            res.status(400).send(err);
+        }
+        else {
+            res.json(page);
+        }
+    });
+}
+
+exports.savePage = function(req, res) {
+    var user = req.user;
+
+    if (user) {
+        Page.findById(req.body._id, function(err, page) {
+            if (err) {
+                res.status(400).send(err);
+            }
+            else if (page) {
+                page.data = req.body.data;
+                page.title = req.body.title;
+
+                page.save(function(err) {
+                    if (err) {
+                        res.status(400).send({
+                            message: 'Could not save page.'
+                        });
+                    }
+                });
+
+                res.sendStatus(200);
+            }
+            else {
+                res.status(400).send({
+                    message: 'Could not find the page.'
+                })
+            }
+        });
+    }
+    else {
+        res.status(400).send({
+            message: 'Must be logged in to save a page.'
+        });
+    }
+}
+
+exports.addPage = function(req, res) {
+    var newPost = new Page(req.body);
+
+    newPost.save(function(err) {
+        if (err) {
+            res.status(400).send(err);
+        }
+    });
+
+    res.status(200).send(newPost);
 }
