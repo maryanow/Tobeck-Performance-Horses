@@ -10,37 +10,31 @@
                     </div>
 
                     <div class="site-heading" ng-if="editing">
-                        <fieldset class="form-group">
+                        <div class="pull-left column-div">
                             <label for="headingEdit">Edit Heading</label>
-                            <input type="text" class="form-control" value="{{ page.header.heading }}" ng-model="page.header.heading"></input>
-                        </fieldset>
-                        
-                        <fieldset class="form-group">
+                            <input type="text" class="form-control inline-input" value="{{ page.header.heading }}" ng-model="page.header.heading"></input>
+
                             <label for="subheadingEdit">Edit Subheading</label>
-                            <input type="text" class="form-control" value="{{ page.header.subheading }}" ng-model="page.header.subheading"></input>
-                        </fieldset>
+                            <input type="text" class="form-control inline-input" value="{{ page.header.subheading }}" ng-model="page.header.subheading"></input>
+                        </div>
 
-                        <fieldset class="form-group">
+                        <div class="pull-right column-div">
                             <label for="imageEdit">Edit Background Image</label>
-                            <input type="text" class="form-control" value="{{ page.header.image }}" ng-model="page.header.image"></input>
-                        </fieldset>
+                            <input type="text" class="form-control inline-input" value="{{ page.header.image }}" ng-model="page.header.image"></input>
 
-                        <fieldset class="form-group">
                             <label for="positionEdit">Edit Background Position</label>
-                            <input type="text" class="form-control" value="{{ page.header.position }}" ng-model="page.header.position"></input>
-                        </fieldset>
+                            <input type="text" class="form-control inline-input" value="{{ page.header.position }}" ng-model="page.header.position"></input>
 
-                        <fieldset class="form-group">
                             <label for="darkenedEdit">Edit Background Darkening</label>
-                            <input type="text" class="form-control" value="{{ page.header.darkened }}" ng-model="page.header.darkened"></input>
-                        </fieldset>
+                            <input type="text" class="form-control inline-input" value="{{ page.header.darkened }}" ng-model="page.header.darkened"></input>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <article ng-if="authentication.user">
+    <article>
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -48,7 +42,7 @@
                         <strong ng-bind="error"></strong>
                     </div>
 
-                    <button class="btn btn-success pull-right" ng-click="editPage()" ng-if="!editing && page !== null"><span class="glyphicon glyphicon-edit"></span></button>
+                    <button class="btn btn-success pull-right" ng-click="editPage()" ng-if="authentication.user && !editing && page !== null">Edit Page <span class="glyphicon glyphicon-edit"></span></button>
                     <button class="btn btn-danger pull-right" ng-click="cancelEdit()" ng-if="editing"><span class="glyphicon glyphicon-share-alt"></span></button>
                     <button class="btn btn-success pull-right" ng-click="savePage()" ng-if="editing"><span class="glyphicon glyphicon-save"></span></button>
 
@@ -128,36 +122,6 @@
                             <button class="btn btn-info btn-sm" ng-click="addItem($index, 'hr-lg')">Long Divider <span class="glyphicon glyphicon-plus-sign"></span></button>
                             <button class="btn btn-info btn-sm" ng-click="addItem($index, 'hr-sh')">Short Divider <span class="glyphicon glyphicon-plus-sign"></span></button>
                         </div>
-                    </div>
-
-                    <hr>
-                </div>
-            </div>
-        </div>
-    </article>
-
-    <article ng-if="!authentication.user">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <div ng-show="error" class="text-center text-danger">
-                        <strong ng-bind="error"></strong>
-                    </div>
-
-                    <div ng-repeat="item in page.data">
-                        <p ng-if="item.desc === 'text'" class="justified-indent">{{ item.value }}</p>
-
-                        <img ng-if="item.desc === 'image'" class="inline-img pull-right" ng-src="{{ getResource(item.value) }}"></img>
-
-                        <iframe ng-if="item.desc === 'video'" class="video-preview" ng-src="{{ getResource(item.value) }}" allowfullscreen frameborder="0">Unfortunately your browser does not support iframes.</iframe> 
-
-                        <blockquote ng-if="item.desc === 'quote'" class="blockquote">{{ item.value }}</blockquote>
-
-                        <h1 ng-if="item.desc === 'section'">{{ item.value }}</h1>
-
-                        <hr ng-if="item.desc === 'hr-lg'">
-
-                        <hr ng-if="item.desc === 'hr-sh'" class="small-dark">
                     </div>
 
                     <hr>

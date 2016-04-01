@@ -15,12 +15,22 @@ angular.module('core').controller('NewsController', ['$scope', '$location', '$ht
             data:[]
         }
 
+        $scope.editing = false;
+
         $http.get('/posts').success(function(data) {
             delete $scope.error;
             $scope.posts = data;
         }).error(function(err) {
             $scope.posts = null;
             $scope.error = err.message;
+        });
+
+        $http.get('/pages/news').success(function(data) {
+            delete $scope.error;
+            $scope.page = data;
+        }).error(function(err) {
+            $scope.error = err.message;
+            $scope.page = null;
         });
 
         /*
@@ -138,6 +148,24 @@ angular.module('core').controller('NewsController', ['$scope', '$location', '$ht
 
         $scope.addItem = function(post, index, _desc) {
             post.data.splice(index + 1, 0, {desc: _desc, value: ''});
+        }
+
+        $scope.editPage = function() {
+            $scope.editing = true;
+        }
+
+        $scope.cancelEdit = function() {
+            $scope.editing = false;
+        }
+
+        $scope.savePage = function() {
+            $http.post('/pages/save', $scope.page).success(function() {
+                delete $scope.error;
+            }).error(function(response) {
+                $scope.error = response.message;
+            });
+
+            $scope.editing = false;
         }
     }
 ]);
