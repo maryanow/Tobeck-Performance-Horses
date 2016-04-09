@@ -1,11 +1,11 @@
 {
-  "name": "Blog Maker",
-  "description": "Interactive Blog Maker",
+  "name": "Tobeck_Performance_Horses",
+  "description": "Website for Tobeck Performance Horses",
   "version": "0.0.1",
   "author": "Iain Maryanow",
   "engines": {
-    "node": "0.10.x",
-    "npm": "1.4.x"
+    "node": "4.4.2",
+    "npm": "2.15.0"
   },
   "scripts": {
     "start": "grunt",
