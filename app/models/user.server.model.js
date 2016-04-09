@@ -8,41 +8,23 @@ var mongoose = require('mongoose'),
     crypto = require('crypto');
 
 /**
- * A Validation function for local strategy properties
- */
-var validateLocalStrategyProperty = function(property) {
-    return ((this.provider !== 'local' && !this.updated) || property.length);
-};
-
-/**
- * A Validation function for local strategy password
- */
-var validateLocalStrategyPassword = function(password) {
-    return (this.provider !== 'local' || (password && password.length >= 6));
-};
-
-/**
  * Admin Schema
  */
 var AdminSchema = new Schema({
     email: {
         type: String,
         trim: true,
-        default: '',
-        validate: [validateLocalStrategyProperty, 'Please fill in your email'],
-        match: [/.+\@.+\..+/, 'Please fill a valid email address']
+        default: ''
     },
     password: {
         type: String,
-        default: '',
-        validate: [validateLocalStrategyPassword, 'Password should be longer']
+        default: ''
     },
     salt: {
         type: String
     },
     provider: {
-        type: String,
-        required: 'Provider is required'
+        type: String
     },
     updated: {
         type: Date
