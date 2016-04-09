@@ -6,7 +6,7 @@ module.exports = {
 		description: "Tobeck Performance Horses, Horse Training",
 		keywords: 'horse, training, performance, equestrian'
 	},
-	db: 'mongodb://localhost/Training',
+	db: 'mongodb://localhost/TobeckPH',
 	port: 4000,
 	templateEngine: 'swig',
 	sessionSecret: 'MEAN',

@@ -1,51 +1,210 @@
-<section data-ng-controller="TrainingController">
-    <header class="intro-header darken-image" style="background-image: linear-gradient(rgba(0, 0, 80, 0.4), rgba(0, 0, 80, 0.4)), url('/modules/core/img/header-bg-1');">
+<section data-ng-controller="NewsController">
+    <header class="intro-header" style="background-image: linear-gradient(rgba(0,0,80,{{ page.header.darkened }}), rgba(0,0,80, {{page.header.darkened }})), url('{{ getResource(page.header.image) }}'); background-position: 0% {{ page.header.position }}%;">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <div class="site-heading">
-                        <h1>News</h1>
+                <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+                    <div class="site-heading" ng-if="!editing">
+                        <h1>{{ page.header.heading }}</h1>
                         <hr class="small">
-                        <span class="subheading">Toilet Training for Horses</span>
+                        <span class="subheading" ng-if="page.header.subheading !== ''">{{ page.header.subheading }}</span>
+                    </div>
+
+                    <div class="site-heading" ng-if="editing">
+                        <div class="pull-left column-div">
+                            <label for="headingEdit">Edit Heading</label>
+                            <input type="text" class="form-control inline-input" value="{{ page.header.heading }}" ng-model="page.header.heading"></input>
+
+                            <label for="subheadingEdit">Edit Subheading</label>
+                            <input type="text" class="form-control inline-input" value="{{ page.header.subheading }}" ng-model="page.header.subheading"></input>
+                        </div>
+
+                        <div class="pull-right column-div">
+                            <label for="imageEdit">Edit Background Image</label>
+                            <input type="text" class="form-control inline-input" value="{{ page.header.image }}" ng-model="page.header.image"></input>
+
+                            <label for="positionEdit">Edit Background Position</label>
+                            <input type="text" class="form-control inline-input" value="{{ page.header.position }}" ng-model="page.header.position"></input>
+
+                            <label for="darkenedEdit">Edit Background Darkening</label>
+                            <input type="text" class="form-control inline-input" value="{{ page.header.darkened }}" ng-model="page.header.darkened"></input>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <article>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <p>words words words wordswordswords words wordswordswordswordswords words wordswords  words words words ordswords words wordswords  words words wordsordswords words wordswords  words words wordsordswords words wordswords  words words words ordswords words wordswords  words words wordsordswords words wordswords  words words words</p>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div ng-show="error" class="text-center text-danger">
+                    <strong ng-bind="error"></strong>
+                </div>
 
-                    <p>words words words wordswordswords words wordswordswordswordswords words wordswords  words words words ordswords words wordswords  words words wordsordswords words wordswords  words words wordsordswords words wordswords  words wo</p>
+                <button class="btn btn-success pull-right" ng-click="editPage()" ng-if="authentication.user && !editing && page !== null">Edit Page <span class="glyphicon glyphicon-edit"></span></button>
+                <button class="btn btn-danger pull-right" ng-click="cancelEdit()" ng-if="editing"><span class="glyphicon glyphicon-share-alt"></span></button>
+                <button class="btn btn-success pull-right" ng-click="savePage()" ng-if="editing"><span class="glyphicon glyphicon-save"></span></button>
 
-                    <p>rds wordswords  words words wordsordswords words wordswords  words words wordsordswords words wordswords  words words word</p>
+                <!-- Adding a new post -->
+                <div ng-if="authentication.user" class="clear">
+                    <h2 class="pull-left">New Post</h2>
+                    <button class="btn btn-success pull-right" ng-click="addPost()"><span class="glyphicon glyphicon-save"></span></button>
 
-                    <p>rds wordswords  words words wordsordswords words wordswords  words words wordsordswords words wordswords  words words word</p>
+                    <form class="clear">
+                        <fieldset class="form-group">
+                            <label for="title">Title</label>
+                            <input type="text" class="form-control" value="{{ newPost.title }}" ng-model="newPost.title">
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <label for="subtitle">Subtitle</label>
+                            <input type="text" class="form-control" value="{{ newPost.subtitle }}" ng-model="newPost.subtitle">
+                        </fieldset>
+                        <fieldset>
+                            <button class="btn btn-info btn-sm" ng-click="addItem(newPost, -1, 'text')">Text <span class="glyphicon glyphicon-plus-sign"></span></button>
+                            <button class="btn btn-info btn-sm" ng-click="addItem(newPost, -1, 'image')">Image <span class="glyphicon glyphicon-plus-sign"></span></button>
+                            <button class="btn btn-info btn-sm" ng-click="addItem(newPost, -1, 'video')">Video <span class="glyphicon glyphicon-plus-sign"></span></button>
+                            <button class="btn btn-info btn-sm" ng-click="addItem(newPost, -1, 'quote')">Quote <span class="glyphicon glyphicon-plus-sign"></span></button>
+                            <button class="btn btn-info btn-sm" ng-click="addItem(newPost, -1, 'section')">Section <span class="glyphicon glyphicon-plus-sign"></span></button>
 
-                    <h2 class="section-heading">A Section Title</h2>
+                            <div ng-repeat="item in newPost.data">
+                                <fieldset class="form-group" ng-if="item.desc === 'text'">
+                                    <label for="textEdit">Edit Text</label>
+                                    <button class="btn btn-danger btn-sm pull-right" ng-click="removeItem(newPost, item)"><span class="glyphicon glyphicon-remove"></span></button>
+                                    <textarea class="form-control" ng-model="item.value">{{ item.value }}</textarea>
+                                </fieldset>
+                                
+                                <fieldset class="form-group" ng-if="item.desc === 'image'">
+                                    <label for="imageEdit">Edit Image</label>
+                                    <button class="btn btn-danger btn-sm pull-right" ng-click="removeItem(newPost, item)"><span class="glyphicon glyphicon-remove"></span></button>
+                                    <input type="text" class="form-control" value="{{ item.value }}" ng-model="item.value"></input>
+                                </fieldset>
+                                
+                                <fieldset class="form-group" ng-if="item.desc === 'video'">
+                                    <label for="videoEdit">Edit Video</label>
+                                    <button class="btn btn-danger btn-sm pull-right" ng-click="removeItem(newPost, item)"><span class="glyphicon glyphicon-remove"></span></button>
+                                    <input type="text" class="form-control" value="{{ item.value }}" ng-model="item.value"></input>
+                                </fieldset>
 
-                    <p>rds wordswords  words words wordsordswords words wordswords  words words wordsordswords words wordswords  words words wordrds wordswords  words words wordsordswords words wordswords  words words wordsordswords words wordswords  words words word</p>
+                                <fieldset class="form-group" ng-if="item.desc === 'quote'">
+                                    <label for="quoteEdit">Edit Quote</label>
+                                    <button class="btn btn-danger btn-sm pull-right" ng-click="removeItem(post, item)"><span class="glyphicon glyphicon-remove"></span></button>
+                                    <textarea class="form-control" ng-model="item.value">{{ item.value }}</textarea>
+                                </fieldset>
 
-                    <p>rds wordswords  words words wordsordswords words wordswords  words words wordsordswords words wordswords  words words wordrds wordswords  words words wordsordswords words wordswords  words words wordsordswords words wordswords  words words word</p>
+                                <fieldset class="form-group" ng-if="item.desc === 'section'">
+                                    <label for="sectionEdit">Edit Section Title</label>
+                                    <button class="btn btn-danger btn-sm pull-right" ng-click="removeItem(post, item)"><span class="glyphicon glyphicon-remove"></span></button>
+                                    <input type="text" class="form-control" value="{{ item.value }}" ng-model="item.value"></input>
+                                </fieldset>
 
-                    <blockquote class="blockquote-reverse"><p>A quote rds wordswords  words words wordsordswords words wordswords  words words wordsordswords words wordswords  words words word</p><footer>A person</footer></blockquote>
-
-                    <p>rds wordswords  words words wordsordswords words wordswords  words words wordsordswords words wordswords  words words word</p>
-
-                    <h2 class="section-heading">Another Title</h2>
-
-                    <p>wordswords  words words wordsordswords words wordswords  words words wordsordswords words wordswords  words words wordwordswords  words words wordsordswords words wordswords  words words wordsordswords words wordswords  words words word</p>
-
-                    <p>wordswords  words words wordsordswords words wordswords  words words wordsordswords words wordswords  words words wordwordswords  words words wordsordswords words wordswords  words words wordsordswords words wordswords  words words word</p>
-
-                    <p>wordswords  words words wordsordswords words wordswords  words words wordsordswords words wordswords  words words word</p>
-
+                                <button class="btn btn-info btn-sm" ng-click="addItem(newPost, $index, 'text')">Text <span class="glyphicon glyphicon-plus-sign"></span></button>
+                                <button class="btn btn-info btn-sm" ng-click="addItem(newPost, $index, 'image')">Image <span class="glyphicon glyphicon-plus-sign"></span></button>
+                                <button class="btn btn-info btn-sm" ng-click="addItem(newPost, $index, 'video')">Video <span class="glyphicon glyphicon-plus-sign"></span></button>
+                                <button class="btn btn-info btn-sm" ng-click="addItem(newPost, $index, 'quote')">Quote <span class="glyphicon glyphicon-plus-sign"></span></button>
+                                <button class="btn btn-info btn-sm" ng-click="addItem(newPost, $index, 'section')">Section <span class="glyphicon glyphicon-plus-sign"></span></button>
+                            </div>
+                        </fieldset>
+                    </form>
                     <hr>
                 </div>
+                <!-- Adding a new post -->
+
+                <div ng-repeat="post in posts">
+
+                    <!-- Displaying existing posts -->
+                    <div ng-if="$index >= startIndex && $index <= endIndex && !post.editing">
+                        <button class="btn btn-danger pull-right" ng-click="removePost(post)" ng-if="authentication.user"><span class="glyphicon glyphicon-remove"></span></button>
+                        <button class="btn btn-success pull-right" ng-click="editPost(post)" ng-if="authentication.user"><span class="glyphicon glyphicon-edit"></span></button>
+
+                        <h2>{{ post.title }}</h2>
+
+                        <h4 ng-if="post.subtitle !== ''" class="post-subtitle">{{ post.subtitle }}</h3>
+
+                        <div ng-repeat="item in post.data">
+                            <p ng-if="item.desc === 'text'" class="justified-indent">{{ item.value }}</p>
+
+                            <img ng-if="item.desc === 'image'" class="image-post" ng-src="{{ getResource(item.value) }}"></img>
+
+                            <iframe ng-if="item.desc === 'video'" class="video-preview" ng-src="{{ getResource(item.value) }}" allowfullscreen frameborder="0">Unfortunately your browser does not support iframes.</iframe> 
+
+                            <blockquote ng-if="item.desc === 'quote'" class="blockquote">{{ item.value }}</blockquote>
+
+                            <h3 ng-if="item.desc === 'section'" class="section-heading">&mdash; {{ item.value }}</h3>
+                        </div>
+
+                        <span class="post-meta">Posted <span ng-bind="post.created | date:'MMM d, yyyy hh:mm'"></span><span ng-show="post.created !== post.updated"> &mdash; Updated <span ng-bind="post.updated | date:'MMM d, yyyy hh:mm'"></span></span></span>
+                        <hr>
+                    </div>
+                    <!-- Displaying existing posts -->
+
+                    <!-- Displaying post to edit -->
+                    <div ng-if="$index >= startIndex && $index <= endIndex && post.editing">
+                        <button class="btn btn-danger pull-right" ng-click="cancelEdit(post)"><span class="glyphicon glyphicon-share-alt"></span></button>
+                        <button class="btn btn-success pull-right" ng-click="savePost(post)"><span class="glyphicon glyphicon-save"></span></button>
+
+                        <form class="clear">
+                            <fieldset class="form-group">
+                                <label for="title">Title</label>
+                                <input type="text" class="form-control" value="{{ post.title }}" ng-model="post.title">
+                            </fieldset>
+                            <fieldset class="form-group">
+                                <label for="subtitle">Subtitle</label>
+                                <input type="text" class="form-control" value="{{ post.subtitle }}" ng-model="post.subtitle">
+                            </fieldset>
+                            <fieldset>
+                                <button class="btn btn-info btn-sm" ng-click="addItem(post, -1, 'text')">Text <span class="glyphicon glyphicon-plus-sign"></span></button>
+                                <button class="btn btn-info btn-sm" ng-click="addItem(post, -1, 'image')">Image <span class="glyphicon glyphicon-plus-sign"></span></button>
+                                <button class="btn btn-info btn-sm" ng-click="addItem(post, -1, 'video')">Video <span class="glyphicon glyphicon-plus-sign"></span></button>
+                                <button class="btn btn-info btn-sm" ng-click="addItem(post, -1, 'quote')">Quote <span class="glyphicon glyphicon-plus-sign"></span></button>
+                                <button class="btn btn-info btn-sm" ng-click="addItem(post, -1, 'section')">Section <span class="glyphicon glyphicon-plus-sign"></span></button>
+
+                                <div ng-repeat="item in post.data">
+                                    <fieldset class="form-group" ng-if="item.desc === 'text'">
+                                        <label for="textEdit">Edit Text</label>
+                                        <button class="btn btn-danger btn-sm pull-right" ng-click="removeItem(post, item)"><span class="glyphicon glyphicon-remove"></span></button>
+                                        <textarea class="form-control" ng-model="item.value">{{ item.value }}</textarea>
+                                    </fieldset>
+                                    
+                                    <fieldset class="form-group" ng-if="item.desc === 'image'">
+                                        <label for="imageEdit">Edit Image</label>
+                                        <button class="btn btn-danger btn-sm pull-right" ng-click="removeItem(post, item)"><span class="glyphicon glyphicon-remove"></span></button>
+                                        <input type="text" class="form-control" value="{{ item.value }}" ng-model="item.value"></input>
+                                    </fieldset>
+                                    
+                                    <fieldset class="form-group" ng-if="item.desc === 'video'">
+                                        <label for="videoEdit">Edit Video</label>
+                                        <button class="btn btn-danger btn-sm pull-right" ng-click="removeItem(post, item)"><span class="glyphicon glyphicon-remove"></span></button>
+                                        <input type="text" class="form-control" value="{{ item.value }}" ng-model="item.value"></input>
+                                    </fieldset>
+
+                                    <fieldset class="form-group" ng-if="item.desc === 'quote'">
+                                        <label for="quoteEdit">Edit Quote</label>
+                                        <button class="btn btn-danger btn-sm pull-right" ng-click="removeItem(post, item)"><span class="glyphicon glyphicon-remove"></span></button>
+                                        <textarea class="form-control" ng-model="item.value">{{ item.value }}</textarea>
+                                    </fieldset>
+
+                                    <fieldset class="form-group" ng-if="item.desc === 'section'">
+                                        <label for="sectionEdit">Edit Section Title</label>
+                                        <button class="btn btn-danger btn-sm pull-right" ng-click="removeItem(post, item)"><span class="glyphicon glyphicon-remove"></span></button>
+                                        <input type="text" class="form-control" value="{{ item.value }}" ng-model="item.value"></input>
+                                    </fieldset>
+
+                                    <button class="btn btn-info btn-sm" ng-click="addItem(post, $index, 'text')">Text <span class="glyphicon glyphicon-plus-sign"></span></button>
+                                    <button class="btn btn-info btn-sm" ng-click="addItem(post, $index, 'image')">Image <span class="glyphicon glyphicon-plus-sign"></span></button>
+                                    <button class="btn btn-info btn-sm" ng-click="addItem(post, $index, 'video')">Video <span class="glyphicon glyphicon-plus-sign"></span></button>
+                                    <button class="btn btn-info btn-sm" ng-click="addItem(post, $index, 'quote')">Quote <span class="glyphicon glyphicon-plus-sign"></span></button>
+                                    <button class="btn btn-info btn-sm" ng-click="addItem(post, $index, 'section')">Section <span class="glyphicon glyphicon-plus-sign"></span></button>
+                                </div>
+                            </fieldset>
+                        </form>
+                        <hr>
+                    </div>
+                    <!-- Displaying post to edit -->
+                </div>
+
+                <button class="btn btn-info pull-left" ng-if="startIndex > 0" ng-click="previousPage()"><span class="glyphicon glyphicon-arrow-left"></span> Newer Posts</button>
+                <button class="btn btn-info pull-right" ng-if="endIndex < posts.length - 1" ng-click="nextPage()">Older Posts <span class="glyphicon glyphicon-arrow-right"></span></button>
             </div>
         </div>
-    </article>
+    </div>
 </section>

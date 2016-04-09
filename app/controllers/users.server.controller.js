@@ -50,7 +50,6 @@ exports.register = function(req, res) {
         }
         else {
             var newAdmin = new Admin(req.body);
-            var message = null;
 
             newAdmin.provider = 'local';
 

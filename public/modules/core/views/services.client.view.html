@@ -1,4 +1,4 @@
-<section ng-controller="SalesController">
+<section data-ng-controller="ServicesController">
     <header class="intro-header" style="background-image: linear-gradient(rgba(0,0,80,{{ page.header.darkened }}), rgba(0,0,80, {{page.header.darkened }})), url('{{ getResource(page.header.image) }}'); background-position: 0% {{ page.header.position }}%;">
         <div class="container">
             <div class="row">
@@ -68,7 +68,7 @@
 
                             <h1 ng-if="item.desc === 'section'">{{ item.value }}</h1>
 
-                            <hr ng-if="item.desc === 'hr-lg'">
+                            <hr ng-if="item.desc === 'hr-lg'" class="clear">
 
                             <hr ng-if="item.desc === 'hr-sh'" class="small-dark">
                         </div>
@@ -106,7 +106,7 @@
 
                             <fieldset class="form-group" ng-if="item.desc === 'hr-lg'">
                                 <button class="btn btn-danger btn-sm pull-right" ng-click="removeItem(item)"><span class="glyphicon glyphicon-remove"></span></button>
-                                <hr>
+                                <hr class="clear">
                             </fieldset>
 
                             <fieldset class="form-group" ng-if="item.desc === 'hr-sh'">

@@ -1,18 +1,25 @@
 'use strict';
 
-angular.module('core').controller('HomeController', ['$scope', '$location', '$http', 'Authentication', '$sce',
-	function($scope, $location, $http, Authentication, $sce) {
+angular.module('core').controller('ServicesController', ['$scope', '$location', '$http', 'Authentication', '$sce',
+    function($scope, $location, $http, Authentication, $sce) {
         $scope.authentication = Authentication;
 
         $scope.editing = false;
 
-        $http.get('/pages/home').success(function(data) {
+        $http.get('/pages/services').success(function(data) {
             delete $scope.error;
             $scope.page = data;
         }).error(function(err) {
             $scope.error = err.message;
             $scope.page = null;
         });
+
+        /*
+        *   Transform URL into trusted URL for iframe/img use.
+        */
+        $scope.getResource = function(src) {
+            return $sce.trustAsResourceUrl(src);
+        }
 
         $scope.editPage = function() {
             $scope.editing = true;
@@ -32,13 +39,6 @@ angular.module('core').controller('HomeController', ['$scope', '$location', '$ht
             $scope.editing = false;
         }
 
-        /*
-        *   Transform URL into trusted URL for iframe/img use.
-        */
-        $scope.getResource = function(src) {
-            return $sce.trustAsResourceUrl(src);
-        }
-
         $scope.addItem = function(index, _desc) {
             $scope.page.data.splice(index + 1, 0, {desc: _desc, value: ''});
         }
@@ -46,5 +46,5 @@ angular.module('core').controller('HomeController', ['$scope', '$location', '$ht
         $scope.removeItem = function(item) {
             $scope.page.data.splice($scope.page.data.indexOf(item), 1);
         }
-	}
+    }
 ]);
