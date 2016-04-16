@@ -2,7 +2,8 @@
 
 var mongoose = require('mongoose'),
     Post = mongoose.model('Post'),
-    Page = mongoose.model('Page');
+    Page = mongoose.model('Page'),
+    Metric = mongoose.model('Metric');
 
 exports.index = function(req, res) {
     res.render('index', {
@@ -119,6 +120,16 @@ exports.getPage = function(req, res) {
         }
         else {
             res.json(page);
+
+            Metric.findOne({page: req.params.page}, function(err, metric) {
+                if (err) {
+                    console.log('Could not find metric schema.');
+                }
+                else {
+                    metric.visits += 1;
+                    metric.save();
+                }
+            });
         }
     });
 }
@@ -160,14 +171,26 @@ exports.savePage = function(req, res) {
     }
 }
 
-exports.addPage = function(req, res) {
-    var newPost = new Page(req.body);
+// exports.addPage = function(req, res) {
+//     var newPost = new Page(req.body);
 
-    newPost.save(function(err) {
-        if (err) {
-            res.status(400).send(err);
-        }
-    });
+//     newPost.save(function(err) {
+//         if (err) {
+//             res.status(400).send(err);
+//         }
+//     });
 
-    res.status(200).send(newPost);
-}
+//     res.status(200).send(newPost);
+// }
+
+// exports.addMetric = function(req, res) {
+//     var newMetric = new Metric(req.body);
+
+//     newMetric.save(function(err) {
+//         if (err) {
+//             res.status(400).send(err);
+//         }
+//     });
+
+//     res.sendStatus(200);
+// }
