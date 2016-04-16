@@ -12,5 +12,5 @@ module.exports = function(app) {
 	// Setting up the users authentication api
 	app.route('/auth/signin').post(users.signin);
 	app.route('/auth/signout').get(users.signout);
-    app.route('/auth/register').post(users.register);
+    // app.route('/auth/register').post(users.register);
 };

@@ -1,0 +1,34 @@
+<header class="intro-header" style="background-image: linear-gradient(rgba(0,0,80,{{ page.header.darkened }}), rgba(0,0,80, {{page.header.darkened }})), url('{{ getResource(page.header.image) }}'); background-position: 0% {{ page.header.position }}%;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+                    <div class="site-heading" ng-if="!editing">
+                        <h1>{{ page.header.heading }}</h1>
+                        <hr class="small">
+                        <span class="subheading" ng-if="page.header.subheading !== ''">{{ page.header.subheading }}</span>
+                    </div>
+
+                    <div class="site-heading" ng-if="editing">
+                        <div class="pull-left column-div">
+                            <label for="headingEdit">Edit Heading</label>
+                            <input type="text" class="form-control inline-input" value="{{ page.header.heading }}" ng-model="page.header.heading"></input>
+
+                            <label for="subheadingEdit">Edit Subheading</label>
+                            <input type="text" class="form-control inline-input" value="{{ page.header.subheading }}" ng-model="page.header.subheading"></input>
+                        </div>
+
+                        <div class="pull-right column-div">
+                            <label for="imageEdit">Edit Background Image</label>
+                            <input type="text" class="form-control inline-input" value="{{ page.header.image }}" ng-model="page.header.image"></input>
+
+                            <label for="positionEdit">Edit Background Position</label>
+                            <input type="text" class="form-control inline-input" value="{{ page.header.position }}" ng-model="page.header.position"></input>
+
+                            <label for="darkenedEdit">Edit Background Darkening</label>
+                            <input type="text" class="form-control inline-input" value="{{ page.header.darkened }}" ng-model="page.header.darkened"></input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
