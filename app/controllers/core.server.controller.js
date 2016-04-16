@@ -171,26 +171,26 @@ exports.savePage = function(req, res) {
     }
 }
 
-// exports.addPage = function(req, res) {
-//     var newPost = new Page(req.body);
+exports.addPage = function(req, res) {
+    var newPost = new Page(req.body);
 
-//     newPost.save(function(err) {
-//         if (err) {
-//             res.status(400).send(err);
-//         }
-//     });
+    newPost.save(function(err) {
+        if (err) {
+            res.status(400).send(err);
+        }
+    });
 
-//     res.status(200).send(newPost);
-// }
+    res.status(200).send(newPost);
+}
 
-// exports.addMetric = function(req, res) {
-//     var newMetric = new Metric(req.body);
+exports.addMetric = function(req, res) {
+    var newMetric = new Metric(req.body);
 
-//     newMetric.save(function(err) {
-//         if (err) {
-//             res.status(400).send(err);
-//         }
-//     });
+    newMetric.save(function(err) {
+        if (err) {
+            res.status(400).send(err);
+        }
+    });
 
-//     res.sendStatus(200);
-// }
+    res.sendStatus(200);
+}
