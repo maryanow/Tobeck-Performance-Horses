@@ -6912,7 +6912,7 @@ hr.small-dark {
   margin-top: 10px;
 }
 footer.footer {
-  padding: 50px 0 65px;
+  padding: 10px 0 65px;
 }
 footer.footer .list-inline {
   margin: 0;
@@ -6928,6 +6928,17 @@ footer.footer input {
   width: 20%;
 }
 footer.footer h6 {
+  display: inline;
+}
+.auth .list-inline {
+  margin: 0;
+  padding: 0;
+}
+.auth input {
+  display: inline;
+  width: 20%;
+}
+.auth h6 {
   display: inline;
 }
 .image-post {

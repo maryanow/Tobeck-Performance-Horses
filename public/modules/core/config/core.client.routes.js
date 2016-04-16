@@ -26,6 +26,10 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 		.state('contact', {
 			url: '/contact',
 			templateUrl: 'modules/core/views/contact.client.view.html'
+		})
+		.state('admin', {
+			url: '/admin',
+			templateUrl: 'modules/core/views/admin.client.view.html'
 		});
 	}
 ]);

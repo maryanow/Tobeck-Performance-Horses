@@ -14,7 +14,8 @@ module.exports = function(app) {
     app.route('/pages/:page').get(core.getPage);
     app.route('/pages/save').post(core.savePage);
 
-    app.route('/pages/add').post(core.addPage);
+    // app.route('/pages/add').post(core.addPage);
 
-    app.route('/metrics').post(core.addMetric);
+    // app.route('/metrics').post(core.addMetric);
+    app.route('/metrics').get(core.getMetrics);
 };

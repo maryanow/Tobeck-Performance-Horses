@@ -1,0 +1,43 @@
+<section data-ng-controller="AdminController">
+    <header class="intro-header" style="background: #101046; height: 220px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+                    <div class="site-heading" style="padding: 70px 0;">
+                        <h1>Admin</h1>
+                        <hr class="small">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 auth">
+                <div class="text-center" ng-if="!authentication.user">
+                    <input type="text" class="form-control" ng-model="credentials.email" placeholder="Admin"></input>
+                    <input type="password" class="form-control" ng-model="credentials.password" placeholder="Password"></input>
+                    <button class="btn btn-sm btn-success" ng-click="signin()"><span class="glyphicon glyphicon-log-in"></span></button>
+                    <div data-ng-show="error" class="text-center text-danger">
+                        <strong ng-bind="error"></strong>
+                    </div>
+                </div>
+
+                <div class="text-center" ng-if="authentication.user">
+                    <h6>Signed in as Admin</h6>
+                    <a href="/auth/signout" class="btn btn-success btn-sm pull"><span class="glyphicon glyphicon-log-out"></span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="text-center col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2">
+            <div ng-repeat="metric in metrics">
+                {{ metric.page }} , {{ metric.visits }}
+            </div>
+            {{ totalViews }}
+        </div>
+    </div>
+</section>

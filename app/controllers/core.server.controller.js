@@ -171,26 +171,36 @@ exports.savePage = function(req, res) {
     }
 }
 
-exports.addPage = function(req, res) {
-    var newPost = new Page(req.body);
+// exports.addPage = function(req, res) {
+//     var newPost = new Page(req.body);
 
-    newPost.save(function(err) {
+//     newPost.save(function(err) {
+//         if (err) {
+//             res.status(400).send(err);
+//         }
+//     });
+
+//     res.status(200).send(newPost);
+// }
+
+// exports.addMetric = function(req, res) {
+//     var newMetric = new Metric(req.body);
+
+//     newMetric.save(function(err) {
+//         if (err) {
+//             res.status(400).send(err);
+//         }
+//     });
+
+//     res.sendStatus(200);
+// }
+
+exports.getMetrics = function(req, res) {
+    Metric.find({}, function(err, metrics) {
         if (err) {
             res.status(400).send(err);
         }
+
+        res.status(200).send(metrics);
     });
-
-    res.status(200).send(newPost);
-}
-
-exports.addMetric = function(req, res) {
-    var newMetric = new Metric(req.body);
-
-    newMetric.save(function(err) {
-        if (err) {
-            res.status(400).send(err);
-        }
-    });
-
-    res.sendStatus(200);
 }
