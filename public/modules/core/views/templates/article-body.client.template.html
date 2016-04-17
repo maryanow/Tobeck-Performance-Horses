@@ -24,7 +24,11 @@
                     <div ng-if="!editing">
                         <p ng-if="item.desc === 'text'" class="justified-indent">{{ item.value }}</p>
 
-                        <img ng-if="item.desc === 'image'" class="inline-img pull-right" ng-src="{{ getResource(item.value) }}"></img>
+                        <img ng-if="item.desc === 'image-right'" class="inline-img pull-right" ng-src="{{ getResource(item.value) }}"></img>
+
+                        <img ng-if="item.desc === 'image-left'" class="inline-img pull-left" ng-src="{{ getResource(item.value) }}"></img>
+
+                        <img ng-if="item.desc === 'image-center'" class="inline-img img-center" ng-src="{{ getResource(item.value) }}"></img>
 
                         <iframe ng-if="item.desc === 'video'" class="video-preview" ng-src="{{ getResource(item.value) }}" allowfullscreen frameborder="0">Unfortunately your browser does not support iframes.</iframe> 
 
@@ -34,7 +38,7 @@
 
                         <hr ng-if="item.desc === 'hr-lg'" class="clear">
 
-                        <hr ng-if="item.desc === 'hr-sh'" class="small-dark">
+                        <hr ng-if="item.desc === 'hr-sh'" class="small-dark clear">
                     </div>
 
                     <div ng-if="editing" class="clear">
@@ -44,8 +48,20 @@
                             <textarea class="form-control" ng-model="item.value">{{ item.value }}</textarea>
                         </fieldset>
                         
-                        <fieldset class="form-group" ng-if="item.desc === 'image'">
-                            <label for="imageEdit">Edit Image</label>
+                        <fieldset class="form-group" ng-if="item.desc === 'image-center' || item.desc === 'image'">
+                            <label for="imageEdit">Edit Image-Center</label>
+                            <button class="btn btn-danger btn-sm pull-right" ng-click="removeItem(item)"><span class="glyphicon glyphicon-remove"></span></button>
+                            <input type="text" class="form-control" value="{{ item.value }}" ng-model="item.value"></input>
+                        </fieldset>
+
+                        <fieldset class="form-group" ng-if="item.desc === 'image-left'">
+                            <label for="imageEdit">Edit Image-Left</label>
+                            <button class="btn btn-danger btn-sm pull-right" ng-click="removeItem(item)"><span class="glyphicon glyphicon-remove"></span></button>
+                            <input type="text" class="form-control" value="{{ item.value }}" ng-model="item.value"></input>
+                        </fieldset>
+
+                        <fieldset class="form-group" ng-if="item.desc === 'image-right'">
+                            <label for="imageEdit">Edit Image-Right</label>
                             <button class="btn btn-danger btn-sm pull-right" ng-click="removeItem(item)"><span class="glyphicon glyphicon-remove"></span></button>
                             <input type="text" class="form-control" value="{{ item.value }}" ng-model="item.value"></input>
                         </fieldset>
@@ -79,7 +95,9 @@
                         </fieldset>
 
                         <button class="btn btn-info btn-sm" ng-click="addItem($index, 'text')">Text <span class="glyphicon glyphicon-plus-sign"></span></button>
-                        <button class="btn btn-info btn-sm" ng-click="addItem($index, 'image')">Image <span class="glyphicon glyphicon-plus-sign"></span></button>
+                        <button class="btn btn-info btn-sm" ng-click="addItem($index, 'image-center')">Image Center <span class="glyphicon glyphicon-plus-sign"></span></button>
+                        <button class="btn btn-info btn-sm" ng-click="addItem($index, 'image-left')">Image Left <span class="glyphicon glyphicon-plus-sign"></span></button>
+                        <button class="btn btn-info btn-sm" ng-click="addItem($index, 'image-right')">Image Right <span class="glyphicon glyphicon-plus-sign"></span></button>
                         <button class="btn btn-info btn-sm" ng-click="addItem($index, 'video')">Video <span class="glyphicon glyphicon-plus-sign"></span></button>
                         <button class="btn btn-info btn-sm" ng-click="addItem($index, 'quote')">Quote <span class="glyphicon glyphicon-plus-sign"></span></button>
                         <button class="btn btn-info btn-sm" ng-click="addItem($index, 'section')">Section <span class="glyphicon glyphicon-plus-sign"></span></button>
