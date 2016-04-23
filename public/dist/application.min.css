@@ -6912,7 +6912,10 @@ hr.small-dark {
   margin-top: 10px;
 }
 footer.footer {
-  padding: 10px 0 65px;
+  padding: 15px 0 65px;
+}
+footer.footer .auth {
+  margin-bottom: 15px;
 }
 footer.footer .list-inline {
   margin: 0;

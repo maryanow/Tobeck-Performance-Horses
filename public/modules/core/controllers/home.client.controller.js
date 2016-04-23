@@ -15,11 +15,16 @@ angular.module('core').controller('HomeController', ['$scope', '$location', '$ht
         });
 
         $scope.editPage = function() {
+            $scope.copy = angular.copy($scope.page);
             $scope.editing = true;
         }
 
         $scope.cancelEdit = function() {
             $scope.editing = false;
+            if ($scope.copy && $scope.copy !== $scope.page) {
+                $scope.page = angular.copy($scope.copy);
+                $scope.copy = null;
+            }
         }
 
         $scope.savePage = function() {

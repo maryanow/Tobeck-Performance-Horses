@@ -106,7 +106,7 @@
 
                     <!-- Displaying post to edit -->
                     <div ng-if="$index >= startIndex && $index <= endIndex && post.editing">
-                        <button class="btn btn-danger pull-right" ng-click="cancelEdit(post)"><span class="glyphicon glyphicon-share-alt"></span></button>
+                        <button class="btn btn-danger pull-right" ng-click="cancelEditPost(post)"><span class="glyphicon glyphicon-share-alt"></span></button>
                         <button class="btn btn-success pull-right" ng-click="savePost(post)"><span class="glyphicon glyphicon-save"></span></button>
 
                         <form class="clear">
