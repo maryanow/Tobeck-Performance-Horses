@@ -12,6 +12,12 @@
         </div>
     </header>
 
+    <div class="container svg-container" ng-if="authentication.user">
+        <div class="text-center col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2">
+            Total Views &mdash; {{ totalViews }}
+        </div>
+    </div>
+
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 auth">
@@ -29,15 +35,6 @@
                     <a href="/auth/signout" class="btn btn-success btn-sm pull"><span class="glyphicon glyphicon-log-out"></span></a>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="text-center col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2">
-            <div ng-repeat="metric in metrics">
-                {{ metric.page }} , {{ metric.visits }}
-            </div>
-            {{ totalViews }}
         </div>
     </div>
 </section>
